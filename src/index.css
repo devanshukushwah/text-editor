@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+textarea {
+  resize: vertical;
+}
+
 :root {
   --base-gap: 20px;
   --gap: var(--base-gap);
