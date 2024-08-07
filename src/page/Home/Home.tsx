@@ -10,7 +10,6 @@ function Home() {
   const [replacedCount, setReplacedCount] = useState(0);
 
   const selectionResult = (result: ReplaceResponse) => {
-    console.log(result);
     setReplacedContent(result.replaced);
     setReplacedCount(result.count);
   };

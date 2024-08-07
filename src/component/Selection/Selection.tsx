@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { simpleReplace } from "../../service/replaceText";
 
 interface SelectionInput {
@@ -31,45 +31,24 @@ const SimpleSelection = (props: SelectionInput) => {
 
   const handleChange = (e: any) => {
     setFind(e.target.value);
-    updateCallBack(
-      props.content,
-      e.target.value,
-      props.replaceWidth,
-      ignoreCaseCheckbox,
-      wholeWordCheckbox
-    );
   };
 
   const handleIgnoreCaseCheckbox = (e: any) => {
     setIgnoreCaseCheckbox(e.target.checked);
-    updateCallBack(
-      props.content,
-      find,
-      props.replaceWidth,
-      e.target.checked,
-      wholeWordCheckbox
-    );
   };
   const handleWholeWordCheckbox = (e: any) => {
     setWholeWordCheckbox(e.target.checked);
+  };
+
+  useEffect(() => {
     updateCallBack(
       props.content,
       find,
       props.replaceWidth,
       ignoreCaseCheckbox,
-      e.target.checked
+      wholeWordCheckbox
     );
-  };
-
-  //   const childHandleUpdate = (content: string, replaceWith: string) => {
-  //     updateCallBack(
-  //       content,
-  //       find,
-  //       replaceWith,
-  //       ignoreCaseCheckbox,
-  //       wholeWordCheckbox
-  //     );
-  //   };
+  }, [find, ignoreCaseCheckbox, wholeWordCheckbox, props.replaceWidth]);
 
   return (
     <>
