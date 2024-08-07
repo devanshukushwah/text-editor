@@ -48,7 +48,13 @@ const SimpleSelection = (props: SelectionInput) => {
       ignoreCaseCheckbox,
       wholeWordCheckbox
     );
-  }, [find, ignoreCaseCheckbox, wholeWordCheckbox, props.replaceWidth]);
+  }, [
+    find,
+    ignoreCaseCheckbox,
+    wholeWordCheckbox,
+    props.replaceWidth,
+    props.content,
+  ]);
 
   return (
     <>
