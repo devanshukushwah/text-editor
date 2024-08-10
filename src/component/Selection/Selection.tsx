@@ -1,90 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { simpleReplace } from "../../service/replaceText";
+import { Typography } from "antd";
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
+import { Divider } from "antd";
+import SimpleSelection from "../SimpleSelection/SimpleSelection";
+import { Input } from "antd";
 
 interface SelectionInput {
   content: string;
   replaceWidth?: string;
   setContent: any;
 }
-
-const SimpleSelection = (props: SelectionInput) => {
-  const [find, setFind] = useState("");
-  const [ignoreCaseCheckbox, setIgnoreCaseCheckbox] = useState(false);
-  const [wholeWordCheckbox, setWholeWordCheckbox] = useState(false);
-
-  const updateCallBack = (
-    content: string,
-    find: string,
-    replaceWith: string | undefined,
-    ignoreCase: boolean,
-    wholeWord: boolean
-  ) => {
-    const result = simpleReplace(
-      content,
-      find,
-      replaceWith || "",
-      ignoreCase,
-      wholeWord
-    );
-    props.setContent(result);
-  };
-
-  const handleChange = (e: any) => {
-    setFind(e.target.value);
-  };
-
-  const handleIgnoreCaseCheckbox = (e: any) => {
-    setIgnoreCaseCheckbox(e.target.checked);
-  };
-  const handleWholeWordCheckbox = (e: any) => {
-    setWholeWordCheckbox(e.target.checked);
-  };
-
-  useEffect(() => {
-    updateCallBack(
-      props.content,
-      find,
-      props.replaceWidth,
-      ignoreCaseCheckbox,
-      wholeWordCheckbox
-    );
-  }, [
-    find,
-    ignoreCaseCheckbox,
-    wholeWordCheckbox,
-    props.replaceWidth,
-    props.content,
-  ]);
-
-  return (
-    <>
-      <label htmlFor="simple">Enter text: </label>
-      <input
-        type="text"
-        name="simple"
-        placeholder="Enter your selection text"
-        value={find}
-        onChange={handleChange}
-      />
-      <br />
-      <input
-        type="checkbox"
-        name="ignore-case"
-        checked={ignoreCaseCheckbox}
-        onChange={handleIgnoreCaseCheckbox}
-      />
-      <label htmlFor="ignore-case">ignore case</label>
-      <br />
-      <input
-        type="checkbox"
-        name="whole-word"
-        checked={wholeWordCheckbox}
-        onChange={handleWholeWordCheckbox}
-      />
-      <label htmlFor="ignore-case">Whole word</label>
-    </>
-  );
-};
 
 function AdvanceSelection() {
   return (
@@ -108,17 +35,6 @@ function Selection(props: SelectionInput) {
   const [selectionType, setSelectionType] = useState("simple");
   const [replaceWidth, setReplaceWidth] = useState("");
 
-  const renderSelectionComponent = () => {
-    switch (selectionType) {
-      case "simple":
-        return <SimpleSelection {...props} replaceWidth={replaceWidth} />;
-      case "advance":
-        return <AdvanceSelection />;
-      default:
-        return "error";
-    }
-  };
-
   const handleSelectionType = (e: any) => {
     setSelectionType(e.target.value);
   };
@@ -127,30 +43,34 @@ function Selection(props: SelectionInput) {
     setReplaceWidth(e.target.value);
   };
 
+  const findItems: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Simple",
+      children: <SimpleSelection {...props} replaceWidth={replaceWidth} />,
+    },
+    {
+      key: "2",
+      label: "Advance",
+      children: "Content of Tab Pane 2",
+      disabled: true,
+    },
+    {
+      key: "3",
+      label: "Regex",
+      children: "Content of Tab Pane 3",
+      disabled: true,
+    },
+  ];
+
   return (
     <>
-      <h2>Find</h2>
-      <label htmlFor="select-option">Selection Type: </label>
-      <select
-        name="select-option"
-        onChange={handleSelectionType}
-        value={selectionType}
-      >
-        <option value="simple">Simple</option>
-        {/* <option value="advance">Advance</option> */}
-      </select>
-      <br />
-      <br />
-      {renderSelectionComponent()}
-
-      <br />
-      <br />
-      <h2>Replace</h2>
-      <label htmlFor="simple-replace-with">Replace with: </label>
-      <input
-        type="text"
-        name="simple-replace-with"
-        placeholder="Enter text replace with"
+      <Typography.Title level={2}>Find</Typography.Title>
+      <Tabs defaultActiveKey="1" items={findItems} />
+      <Divider />
+      <Typography.Title level={2}>Replace</Typography.Title>
+      <Input
+        placeholder="New value"
         value={replaceWidth}
         onChange={handleReplaceWidth}
       />

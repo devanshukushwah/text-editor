@@ -1,4 +1,4 @@
-import ReplaceResponse from "../interface/ReplaceResponse";
+import Content from "../interface/Content";
 
 function simpleReplace(
   text: string,
@@ -6,9 +6,9 @@ function simpleReplace(
   replaceWith: string,
   ignoreCase: boolean = false,
   wholeWord: boolean = false
-): ReplaceResponse {
+): Content {
   if (!find) {
-    return { original: text, replaced: text, count: 0 };
+    return { original: text, replaced: text, matchCount: 0 };
   }
 
   // Build the regular expression pattern
@@ -35,8 +35,8 @@ function simpleReplace(
 
   // Replace the text using the regular expression
   const replaced = text.replace(regex, replaceWith);
-
-  return { count, replaced, original: text };
+  const result: Content = { matchCount: count, replaced, original: text };
+  return result;
 }
 
 export { simpleReplace };

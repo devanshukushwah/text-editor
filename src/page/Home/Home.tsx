@@ -1,39 +1,45 @@
 import React, { useState } from "react";
 import "./style.css";
 import Selection from "../../component/Selection/Selection";
-import { simpleReplace } from "../../service/replaceText";
-import ReplaceResponse from "../../interface/ReplaceResponse";
+import Content from "../../interface/Content";
+import { Input } from "antd";
+import AdditionalInfo from "../../component/AdditionalInfo/AdditionalInfo";
+
+const defaultContent: Content = {
+  original: "",
+  replaced: "",
+  matchCount: 0,
+};
 
 function Home() {
-  const [content, setContent] = useState("");
-  const [replacedContent, setReplacedContent] = useState(content);
-  const [replacedCount, setReplacedCount] = useState(0);
-
-  const selectionResult = (result: ReplaceResponse) => {
-    setReplacedContent(result.replaced);
-    setReplacedCount(result.count);
+  const [content, setContent] = useState(defaultContent);
+  const selectionResult = (result: Content) => {
+    const obj: Content = {
+      replaced: result.replaced,
+      original: content.original,
+      matchCount: result.matchCount,
+    };
+    setContent(obj);
   };
 
   return (
     <main className="home-main-box">
       <div className="left">
-        <Selection content={content} setContent={selectionResult} />
+        <Selection content={content.original} setContent={selectionResult} />
       </div>
       <div className="divider"></div>
       <div className="right">
-        <textarea
-          style={{ width: "100%" }}
+        <Input.TextArea
           placeholder="Enter existing text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
-        <span>count: </span> {replacedCount}
-        <textarea
-          style={{ width: "100%" }}
+          value={content.original}
+          onChange={(e) => setContent({ ...content, original: e.target.value })}
+        ></Input.TextArea>
+        <AdditionalInfo count={content.matchCount} />
+        <Input.TextArea
           placeholder="output"
-          value={replacedContent}
+          value={content.replaced === content.original ? "" : content.replaced}
           readOnly
-        ></textarea>
+        ></Input.TextArea>
       </div>
     </main>
   );
