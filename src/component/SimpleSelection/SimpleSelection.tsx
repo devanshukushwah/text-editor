@@ -1,39 +1,16 @@
 import SelectionInput from "../../interface/SelectionInput";
 import { simpleReplace } from "../../service/replaceText";
 import React, { useEffect, useState } from "react";
-import { Checkbox } from "antd";
-import type { CheckboxProps } from "antd";
+import { Checkbox, Space } from "antd";
 import { Input } from "antd";
 import Content from "../../interface/Content";
+import { Typography } from "antd";
 
 const SimpleSelection = (props: SelectionInput) => {
   const [find, setFind] = useState("");
+  const [replaceWidth, setReplaceWidth] = useState("");
   const [ignoreCaseCheckbox, setIgnoreCaseCheckbox] = useState(false);
   const [wholeWordCheckbox, setWholeWordCheckbox] = useState(false);
-
-  const updateCallBack = (
-    content: string,
-    find: string,
-    replaceWith: string | undefined,
-    ignoreCase: boolean,
-    wholeWord: boolean
-  ) => {
-    const result = simpleReplace(
-      content,
-      find,
-      replaceWith || "",
-      ignoreCase,
-      wholeWord
-    );
-
-    const contentObj: Content = {
-      original: props.content,
-      replaced: result.replaced,
-      matchCount: result.matchCount,
-    };
-
-    props.setContent(contentObj);
-  };
 
   const handleChange = (e: any) => {
     setFind(e.target.value);
@@ -47,10 +24,34 @@ const SimpleSelection = (props: SelectionInput) => {
   };
 
   useEffect(() => {
+    const updateCallBack = (
+      content: string,
+      find: string,
+      replaceWith: string | undefined,
+      ignoreCase: boolean,
+      wholeWord: boolean
+    ) => {
+      const result = simpleReplace(
+        content,
+        find,
+        replaceWith || "",
+        ignoreCase,
+        wholeWord
+      );
+
+      const contentObj: Content = {
+        original: props.content,
+        replaced: result.replaced,
+        matchCount: result.matchCount,
+      };
+
+      props.setContent(contentObj);
+    };
+
     updateCallBack(
       props.content,
       find,
-      props.replaceWidth,
+      replaceWidth,
       ignoreCaseCheckbox,
       wholeWordCheckbox
     );
@@ -58,23 +59,45 @@ const SimpleSelection = (props: SelectionInput) => {
     find,
     ignoreCaseCheckbox,
     wholeWordCheckbox,
-    props.replaceWidth,
+    replaceWidth,
     props.content,
   ]);
 
   return (
     <>
-      <Input placeholder="Keyword" value={find} onChange={handleChange} />
-      <Checkbox
-        checked={ignoreCaseCheckbox}
-        onChange={handleIgnoreCaseCheckbox}
+      <Space
+        direction="vertical"
+        style={{ width: "100%" }} // Make Space component take full width
       >
-        Ignore Case
-      </Checkbox>
-      <br />
-      <Checkbox checked={wholeWordCheckbox} onChange={handleWholeWordCheckbox}>
-        Whole word
-      </Checkbox>
+        <Input
+          placeholder="Keyword"
+          value={find}
+          onChange={handleChange}
+          addonBefore={"Find"}
+        />
+        <Input
+          placeholder="New value"
+          value={replaceWidth}
+          onChange={(e) => setReplaceWidth(e.target.value)}
+          addonBefore="Replace"
+        />
+        <Typography.Text strong>Options:</Typography.Text>
+        <div>
+          <Checkbox
+            checked={ignoreCaseCheckbox}
+            onChange={handleIgnoreCaseCheckbox}
+          >
+            Ignore Case
+          </Checkbox>
+          <br />
+          <Checkbox
+            checked={wholeWordCheckbox}
+            onChange={handleWholeWordCheckbox}
+          >
+            Whole word
+          </Checkbox>
+        </div>
+      </Space>
     </>
   );
 };
