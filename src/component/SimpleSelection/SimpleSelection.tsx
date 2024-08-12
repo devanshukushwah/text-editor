@@ -5,22 +5,52 @@ import { Checkbox, Space } from "antd";
 import { Input } from "antd";
 import Content from "../../interface/Content";
 import { Typography } from "antd";
+import localStorage from "../../service/localStorage";
+import DefaultUserSettings from "../../interface/DefaultUserSettings";
+import SimpleSelectionInterface from "../../interface/SimpleSelection";
+
+const defaultUserSettings: DefaultUserSettings =
+  localStorage.getDefaultUserSettings();
 
 const SimpleSelection = (props: SelectionInput) => {
   const [find, setFind] = useState("");
   const [replaceWidth, setReplaceWidth] = useState("");
-  const [ignoreCaseCheckbox, setIgnoreCaseCheckbox] = useState(false);
-  const [wholeWordCheckbox, setWholeWordCheckbox] = useState(false);
 
-  const handleChange = (e: any) => {
-    setFind(e.target.value);
+  const [settings, setSettings] = useState<SimpleSelectionInterface>(
+    defaultUserSettings.simpleSelection
+  );
+
+  const updateDefaultSettings = (settings: SimpleSelectionInterface) => {
+    let defaultUserSettings: DefaultUserSettings =
+      localStorage.getDefaultUserSettings();
+    defaultUserSettings.simpleSelection = settings;
+    localStorage.setDefaultUserSettings(defaultUserSettings);
   };
 
   const handleIgnoreCaseCheckbox = (e: any) => {
-    setIgnoreCaseCheckbox(e.target.checked);
+    const newSettings: SimpleSelectionInterface = {
+      ...settings,
+      ignoreCase: e.target.checked,
+    };
+
+    // update useState
+    setSettings(newSettings);
+
+    // updateLocalStorage
+    updateDefaultSettings(newSettings);
   };
+
   const handleWholeWordCheckbox = (e: any) => {
-    setWholeWordCheckbox(e.target.checked);
+    const newSettings: SimpleSelectionInterface = {
+      ...settings,
+      wholeWord: e.target.checked,
+    };
+
+    // update useState
+    setSettings(newSettings);
+
+    // updateLocalStorage
+    updateDefaultSettings(newSettings);
   };
 
   useEffect(() => {
@@ -52,16 +82,12 @@ const SimpleSelection = (props: SelectionInput) => {
       props.content,
       find,
       replaceWidth,
-      ignoreCaseCheckbox,
-      wholeWordCheckbox
+      settings.ignoreCase,
+      settings.wholeWord
     );
-  }, [
-    find,
-    ignoreCaseCheckbox,
-    wholeWordCheckbox,
-    replaceWidth,
-    props.content,
-  ]);
+  }, [find, settings, replaceWidth, props.content]);
+
+  console.log(defaultUserSettings.simpleSelection);
 
   return (
     <>
@@ -72,7 +98,7 @@ const SimpleSelection = (props: SelectionInput) => {
         <Input
           placeholder="Keyword"
           value={find}
-          onChange={handleChange}
+          onChange={(e) => setFind(e.target.value)}
           addonBefore={"Find"}
         />
         <Input
@@ -84,14 +110,14 @@ const SimpleSelection = (props: SelectionInput) => {
         <Typography.Text strong>Options:</Typography.Text>
         <div>
           <Checkbox
-            checked={ignoreCaseCheckbox}
+            checked={settings?.ignoreCase}
             onChange={handleIgnoreCaseCheckbox}
           >
             Ignore Case
           </Checkbox>
           <br />
           <Checkbox
-            checked={wholeWordCheckbox}
+            checked={settings?.wholeWord}
             onChange={handleWholeWordCheckbox}
           >
             Whole word
