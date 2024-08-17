@@ -1,20 +1,17 @@
 import React from "react";
 import "./style.css";
 import { Tag } from "antd";
+import Content from "../../interface/Content";
 
-interface Props {
-  count?: number;
-}
-
-const CountComponent = (props: Props) => {
-  if (!props.count) {
-    return <Tag color="error">No Matching found</Tag>;
+const CountComponent = (props: Content) => {
+  if (props.original === props.replaced) {
+    return <Tag color="error">No Difference</Tag>;
   }
 
-  return <Tag color="success">Count: {props.count}</Tag>;
+  return <Tag color="success">Count: {props.matchCount}</Tag>;
 };
 
-function AdditionalInfo(props: Props) {
+function AdditionalInfo(props: Content) {
   return (
     <div className="additional-info">
       <CountComponent {...props} />

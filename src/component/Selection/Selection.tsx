@@ -4,6 +4,7 @@ import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import SimpleSelection from "../SimpleSelection/SimpleSelection";
 import { Input } from "antd";
+import AdvanceSelection from "../AdvanceSelection/AdvanceSelection";
 
 interface SelectionInput {
   content: string;
@@ -12,10 +13,11 @@ interface SelectionInput {
 }
 
 function Selection(props: SelectionInput) {
-  const [selectionType, setSelectionType] = useState("simple");
+  const [selectionType, setSelectionType] = useState<String>("1");
 
-  const handleSelectionType = (e: any) => {
-    setSelectionType(e.target.value);
+  const handleSelectionType = (tabKey: string) => {
+    // console.log(e);
+    setSelectionType(tabKey);
   };
 
   const findItems: TabsProps["items"] = [
@@ -27,8 +29,7 @@ function Selection(props: SelectionInput) {
     {
       key: "2",
       label: "Advance",
-      children: "Content of Tab Pane 2",
-      disabled: true,
+      children: <AdvanceSelection {...props} />,
     },
     {
       key: "3",
@@ -40,7 +41,11 @@ function Selection(props: SelectionInput) {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={findItems} />
+      <Tabs
+        defaultActiveKey="1"
+        items={findItems}
+        onChange={handleSelectionType}
+      />
     </>
   );
 }

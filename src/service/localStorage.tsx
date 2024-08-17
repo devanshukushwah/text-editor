@@ -18,17 +18,23 @@ function get(key: string) {
 
 function getDefaultUserSettings(): DefaultUserSettings {
   const data = get("defaultUserSettings");
-  if (data) return data;
+  return data;
 
-  const defaultSystemSettings: DefaultUserSettings = {
-    selectionType: "simple",
-    simpleSelection: {
-      ignoreCase: false,
-      wholeWord: false,
-    },
-  };
+  // const defaultSystemSettings: DefaultUserSettings = {
+  //   selectionType: "simple",
+  //   simpleSelection: {
+  //     ignoreCase: false,
+  //     wholeWord: false,
+  //   },
+  //   advanceSelection: {
+  //     ignoreCase: false,
+  //     wholeWord: false,
+  //     lowerCase: false,
+  //     upperCase: false,
+  //   },
+  // };
 
-  return defaultSystemSettings;
+  // return defaultSystemSettings;
 }
 
 function setDefaultUserSettings(settings: DefaultUserSettings) {

@@ -42,12 +42,10 @@ function Home() {
             }
             rows={10}
           ></Input.TextArea>
-          <AdditionalInfo count={content.matchCount} />
+          <AdditionalInfo {...content} />
           <Input.TextArea
             placeholder="output"
-            value={
-              content.replaced === content.original ? "" : content.replaced
-            }
+            value={content.replaced}
             rows={10}
             readOnly
           ></Input.TextArea>

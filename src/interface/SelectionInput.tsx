@@ -2,7 +2,7 @@ import Content from "./Content";
 
 interface SelectionInput {
   content: string;
-  setContent: any;
+  setContent: (param: Content) => void;
 }
 
 export default SelectionInput;

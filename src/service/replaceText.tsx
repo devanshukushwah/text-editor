@@ -1,4 +1,6 @@
 import Content from "../interface/Content";
+import RegexProps from "../interface/RegexProps";
+import regexGenerator from "./regexGenerator";
 
 function simpleReplace(
   text: string,
@@ -39,4 +41,22 @@ function simpleReplace(
   return result;
 }
 
-export { simpleReplace };
+function replace(args: RegexProps, text: string, newValue: string): Content {
+  const regex = regexGenerator(args);
+
+  // console.log(regex);
+
+  // Use the match method to find all matches
+  const matches = text.match(regex);
+  // If there are no matches, return 0; otherwise, return the number of matches
+  const count = matches ? matches.length : 0;
+
+  // Replace the text using the regular expression
+  const replaced = text.replace(regex, newValue);
+
+  const result: Content = { matchCount: count, replaced, original: text };
+
+  return result;
+}
+
+export { simpleReplace, replace };

@@ -17,7 +17,10 @@ const SimpleSelection = (props: SelectionInput) => {
   const [replaceWidth, setReplaceWidth] = useState("");
 
   const [settings, setSettings] = useState<SimpleSelectionInterface>(
-    defaultUserSettings.simpleSelection
+    defaultUserSettings.simpleSelection ?? {
+      ignoreCase: false,
+      wholeWord: false,
+    }
   );
 
   const updateDefaultSettings = (settings: SimpleSelectionInterface) => {
@@ -86,8 +89,6 @@ const SimpleSelection = (props: SelectionInput) => {
       settings.wholeWord
     );
   }, [find, settings, replaceWidth, props.content]);
-
-  console.log(defaultUserSettings.simpleSelection);
 
   return (
     <>
