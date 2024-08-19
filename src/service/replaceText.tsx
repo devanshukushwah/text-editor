@@ -44,7 +44,7 @@ function simpleReplace(
 function replace(args: RegexProps, text: string, newValue: string): Content {
   const regex = regexGenerator(args);
 
-  // console.log(regex);
+  console.log(regex);
 
   // Use the match method to find all matches
   const matches = text.match(regex);

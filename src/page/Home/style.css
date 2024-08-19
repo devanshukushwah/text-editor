@@ -4,7 +4,8 @@
   gap: 10px;
   width: 100%;
   height: 100vh;
-  padding: var(--gap);
+  /* height: 1fr; */
+  /* padding: var(--gap); */
 }
 
 .divider {

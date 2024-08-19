@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import Selection from "../../component/Selection/Selection";
 import Content from "../../interface/Content";
-import { Input, Space } from "antd";
+import { Col, Divider, Flex, Input, Row, Space } from "antd";
 import AdditionalInfo from "../../component/AdditionalInfo/AdditionalInfo";
 
 const defaultContent: Content = {
@@ -24,15 +24,18 @@ function Home() {
   };
 
   return (
-    <main className="home-main-box">
-      <div className="left">
-        <Selection content={content.original} setContent={selectionResult} />
-      </div>
-      <div className="divider"></div>
-      <div className="right">
+    <>
+      <Flex>
+        <div style={{ width: "49%" }}>
+          <Selection content={content.original} setContent={selectionResult} />
+        </div>
+        <Divider
+          type="vertical"
+          style={{ height: "calc(100vh - 50px)", width: "1px" }}
+        />
         <Space
           direction="vertical"
-          style={{ width: "100%" }} // Make Space component take full width
+          style={{ width: "50%" }} // Make Space component take full width
         >
           <Input.TextArea
             placeholder="Enter existing text"
@@ -50,8 +53,8 @@ function Home() {
             readOnly
           ></Input.TextArea>
         </Space>
-      </div>
-    </main>
+      </Flex>
+    </>
   );
 }
 

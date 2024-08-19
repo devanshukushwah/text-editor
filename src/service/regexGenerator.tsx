@@ -18,6 +18,10 @@ function regexGenerator(args: RegexProps) {
   } = args;
   let flag = "g";
 
+  if (ignoreCase) {
+    flag += "i";
+  }
+
   let pattern = "";
 
   let charSet = "";

@@ -29,25 +29,26 @@ interface PrefixPostfixProps {
 
 const PrefixPostfix = (props: PrefixPostfixProps) => {
   return (
-    <Space.Compact style={{ width: "100%" }}>
-      <Input
-        placeholder="prefix"
-        style={{ width: "40%" }}
-        value={props.replace.prefix}
-        onChange={(e) =>
-          props.setReplace({ ...props.replace, prefix: e.target.value })
-        }
-      ></Input>
-      <Input placeholder="match" disabled style={{ width: "20%" }}></Input>
-      <Input
-        placeholder="postfix"
-        style={{ width: "40%" }}
-        value={props.replace.postfix}
-        onChange={(e) =>
-          props.setReplace({ ...props.replace, postfix: e.target.value })
-        }
-      ></Input>
-    </Space.Compact>
+    <>
+      <Space direction="vertical" style={{ width: "100%" }}>
+        <Input
+          placeholder="prefix"
+          addonBefore="Prefix"
+          value={props.replace.prefix}
+          onChange={(e) =>
+            props.setReplace({ ...props.replace, prefix: e.target.value })
+          }
+        ></Input>
+        <Input
+          placeholder="postfix"
+          addonBefore="Postfix"
+          value={props.replace.postfix}
+          onChange={(e) =>
+            props.setReplace({ ...props.replace, postfix: e.target.value })
+          }
+        ></Input>
+      </Space>
+    </>
   );
 };
 
@@ -107,6 +108,7 @@ function AdvanceSelection(props: SelectionInput) {
       children: (
         <Input
           addonBefore="Replace"
+          placeholder="New value"
           value={replace.replaceWith}
           onChange={(e) =>
             setReplace({ ...replace, replaceWith: e.target.value })
@@ -217,10 +219,19 @@ function AdvanceSelection(props: SelectionInput) {
           Whole word
         </Checkbox>
         <br />
+        <Checkbox
+          checked={settings.ignoreCase}
+          onChange={(e) =>
+            handleCheckboxChanges("ignoreCase", e.target.checked)
+          }
+        >
+          Ignore Case
+        </Checkbox>
       </div>
 
       <Input
         addonBefore="Start With"
+        placeholder="Word start with"
         value={settings.startWith}
         onChange={(e) =>
           setSettings({ ...settings, startWith: e.target.value })
@@ -228,6 +239,7 @@ function AdvanceSelection(props: SelectionInput) {
       ></Input>
       <Input
         addonBefore="End With"
+        placeholder="Word end with"
         value={settings.endWith}
         onChange={(e) => setSettings({ ...settings, endWith: e.target.value })}
       ></Input>
