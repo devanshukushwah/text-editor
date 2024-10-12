@@ -54,7 +54,7 @@ const PrefixPostfix = (props: PrefixPostfixProps) => {
 
 function AdvanceSelection(props: SelectionInput) {
   const [settings, setSettings] = useState<AdvanceSelectionInteface>(
-    defaultUserSettings.advanceSelection ?? {
+    defaultUserSettings?.advanceSelection ?? {
       ignoreCase: false,
       includeLowerCase: false,
       wholeWord: false,
