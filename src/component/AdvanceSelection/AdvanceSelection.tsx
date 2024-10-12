@@ -138,7 +138,7 @@ function AdvanceSelection(props: SelectionInput) {
       settings.endWith
     ) {
       if (replaceSelectionType === "1") {
-        console.log(replace);
+        // console.log(replace);
 
         const data: Content = replaceText.replace(
           settings,
@@ -147,7 +147,7 @@ function AdvanceSelection(props: SelectionInput) {
         );
         props.setContent(data);
       } else if (replaceSelectionType === "2") {
-        console.log(replace);
+        // console.log(replace);
         // let prefixPostfixArray = [];
         // if (replace.prefix) {
         //   prefixPostfixArray.push(replace.prefix);
